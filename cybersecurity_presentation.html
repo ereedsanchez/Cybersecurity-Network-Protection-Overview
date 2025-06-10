@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Cybersecurity and Network Protection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #2d1b69 100%);
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1200px;
+            padding: 60px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.6s ease-out;
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #64ffda, #1de9b6, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            color: #64ffda;
+            text-shadow: 0 0 20px rgba(100, 255, 218, 0.5);
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #1de9b6;
+        }
+
+        p, li {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #e8eaf6;
+        }
+
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .threat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .threat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(100, 255, 218, 0.2);
+            border-color: #64ffda;
+        }
+
+        .technique-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .technique-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #64ffda;
+            transition: all 0.3s ease;
+        }
+
+        .technique-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(5px);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #64ffda, #1de9b6);
+            color: #0f0f23;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(100, 255, 218, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
+            color: #64ffda;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #64ffda;
+            text-shadow: 0 0 20px rgba(100, 255, 218, 0.5);
+        }
+
+        .cia-triad {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .cia-element {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid;
+            min-width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        .cia-element:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(100, 255, 218, 0.3);
+        }
+
+        .confidentiality { border-color: #64ffda; }
+        .integrity { border-color: #1de9b6; }
+        .availability { border-color: #00bcd4; }
+
+        .example-list {
+            text-align: left;
+            margin: 30px 0;
+        }
+
+        .example-item {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border-left: 4px solid #ff4444;
+        }
+
+        .incident-item {
+            background: rgba(255, 150, 0, 0.1);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border-left: 4px solid #ff9600;
+        }
+
+        .defense-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 2px solid #64ffda;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #64ffda, #1de9b6);
+            transition: width 0.3s ease;
+            z-index: 1001;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #64ffda;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .best-practices-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .practice-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #1de9b6;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px;
+                width: 95%;
+            }
+            
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            p, li { font-size: 1.1rem; }
+            
+            .threat-grid,
+            .technique-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .cia-triad {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">22</span>
+    </div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="icon">🛡️</div>
+            <h1>Introduction to Cybersecurity</h1>
+            <h3>Network Protection Techniques</h3>
+            <p style="font-size: 1.5rem; margin-top: 40px;">Defending the Digital Frontier</p>
+        </div>
+
+        <!-- Slide 2: What is Cybersecurity? -->
+        <div class="slide">
+            <h2>What is Cybersecurity?</h2>
+            <p>Cybersecurity is the practice of protecting digital systems, networks, and data from cyber attacks, unauthorized access, and damage.</p>
+            <p style="margin-top: 30px; font-size: 1.4rem;">It encompasses technologies, processes, and practices designed to protect networks, devices, programs, and data from attack, damage, or unauthorized access.</p>
+            <div style="margin-top: 40px; font-size: 1.2rem;">
+                <p><strong>Key Goal:</strong> Maintain the security and integrity of information systems while ensuring business continuity</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: CIA Triad -->
+        <div class="slide">
+            <h2>CIA Triad - Foundation of Cybersecurity</h2>
+            <div class="cia-triad">
+                <div class="cia-element confidentiality">
+                    <div style="font-size: 4rem; color: #64ffda;">🔒</div>
+                    <h3>Confidentiality</h3>
+                    <p>Ensuring information is accessible only to authorized individuals</p>
+                    <p><strong>Methods:</strong> Encryption, Access Controls, Authentication</p>
+                </div>
+                <div class="cia-element integrity">
+                    <div style="font-size: 4rem; color: #1de9b6;">✅</div>
+                    <h3>Integrity</h3>
+                    <p>Maintaining accuracy and completeness of data</p>
+                    <p><strong>Methods:</strong> Digital Signatures, Checksums, Version Control</p>
+                </div>
+                <div class="cia-element availability">
+                    <div style="font-size: 4rem; color: #00bcd4;">⚡</div>
+                    <h3>Availability</h3>
+                    <p>Ensuring systems and data are accessible when needed</p>
+                    <p><strong>Methods:</strong> Redundancy, Backups, Disaster Recovery</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Common Cyber Threats Overview -->
+        <div class="slide">
+            <h2>Common Cyber Threats</h2>
+            <div class="threat-grid">
+                <div class="threat-card">
+                    <h3>🦠 Malware</h3>
+                    <p>Malicious software designed to damage, disrupt, or gain unauthorized access to systems</p>
+                </div>
+                <div class="threat-card">
+                    <h3>🎣 Phishing</h3>
+                    <p>Fraudulent communications designed to steal credentials and sensitive information</p>
+                </div>
+                <div class="threat-card">
+                    <h3>⚔️ DDoS Attacks</h3>
+                    <p>Overwhelming systems with traffic to make them unavailable to legitimate users</p>
+                </div>
+                <div class="threat-card">
+                    <h3>👤 Social Engineering</h3>
+                    <p>Manipulating people to divulge confidential information or perform compromising actions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Malware Examples -->
+        <div class="slide">
+            <h2>Types of Malware</h2>
+            <div class="example-list">
+                <div class="example-item">
+                    <h3>🦠 Viruses</h3>
+                    <p>Self-replicating programs that attach to other files and spread when infected files are executed</p>
+                </div>
+                <div class="example-item">
+                    <h3>🐛 Worms</h3>
+                    <p>Self-propagating malware that spreads across networks without human intervention (e.g., Conficker, WannaCry)</p>
+                </div>
+                <div class="example-item">
+                    <h3>🐎 Trojans</h3>
+                    <p>Disguised as legitimate software but perform malicious activities (e.g., Remote Access Trojans - RATs)</p>
+                </div>
+                <div class="example-item">
+                    <h3>🔒 Ransomware</h3>
+                    <p>Encrypts victim's files and demands payment for decryption key (e.g., CryptoLocker, Ryuk)</p>
+                </div>
+                <div class="example-item">
+                    <h3>🕵️ Spyware</h3>
+                    <p>Secretly monitors and collects user information without consent (e.g., keyloggers, adware)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Phishing Examples -->
+        <div class="slide">
+            <h2>Phishing Attack Examples</h2>
+            <div class="example-list">
+                <div class="example-item">
+                    <h3>📧 Email Phishing</h3>
+                    <p>Fake emails from "banks" asking to verify account information or click malicious links</p>
+                </div>
+                <div class="example-item">
+                    <h3>🐋 Spear Phishing</h3>
+                    <p>Targeted attacks on specific individuals using personal information (e.g., CEO impersonation)</p>
+                </div>
+                <div class="example-item">
+                    <h3>🎣 Whaling</h3>
+                    <p>High-value targets like executives, using sophisticated social engineering techniques</p>
+                </div>
+                <div class="example-item">
+                    <h3>📱 Smishing (SMS Phishing)</h3>
+                    <p>Fraudulent text messages with malicious links or requesting personal information</p>
+                </div>
+                <div class="example-item">
+                    <h3>📞 Vishing (Voice Phishing)</h3>
+                    <p>Phone calls impersonating legitimate organizations to steal information</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: DDoS Examples -->
+        <div class="slide">
+            <h2>DDoS Attack Examples</h2>
+            <div class="example-list">
+                <div class="example-item">
+                    <h3>🌊 Volume-Based Attacks</h3>
+                    <p>UDP floods, ICMP floods - overwhelm bandwidth with massive traffic volume</p>
+                </div>
+                <div class="example-item">
+                    <h3>📊 Protocol Attacks</h3>
+                    <p>SYN floods, Ping of Death - exploit weaknesses in server resources and network protocols</p>
+                </div>
+                <div class="example-item">
+                    <h3>💻 Application Layer Attacks</h3>
+                    <p>HTTP floods, Slowloris - target web applications and services to exhaust server resources</p>
+                </div>
+                <div class="example-item">
+                    <h3>🤖 Botnet Attacks</h3>
+                    <p>Networks of infected computers coordinated to launch massive distributed attacks</p>
+                </div>
+                <div class="example-item">
+                    <h3>🔄 Reflection Attacks</h3>
+                    <p>Amplification attacks using DNS, NTP servers to multiply attack traffic</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Social Engineering Examples -->
+        <div class="slide">
+            <h2>Social Engineering Examples</h2>
+            <div class="example-list">
+                <div class="example-item">
+                    <h3>📞 Pretexting</h3>
+                    <p>Creating false scenarios to engage victims and steal information (e.g., fake IT support calls)</p>
+                </div>
+                <div class="example-item">
+                    <h3>🎭 Baiting</h3>
+                    <p>Offering something enticing to spark curiosity (e.g., infected USB drives left in parking lots)</p>
+                </div>
+                <div class="example-item">
+                    <h3>👥 Tailgating</h3>
+                    <p>Following authorized personnel into restricted areas without proper authentication</p>
+                </div>
+                <div class="example-item">
+                    <h3>💰 Quid Pro Quo</h3>
+                    <p>Offering services in exchange for information (e.g., "free" tech support for passwords)</p>
+                </div>
+                <div class="example-item">
+                    <h3>⚡ Scareware</h3>
+                    <p>Creating fear to prompt victims to install malicious software or provide information</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Defense in Depth Overview -->
+        <div class="slide">
+            <h2>Defense in Depth Strategy</h2>
+            <p>Multiple layers of security controls throughout the network infrastructure</p>
+            <div style="display: flex; justify-content: space-around; margin: 50px 0;">
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; color: #64ffda;">🌐</div>
+                    <h3>Perimeter Security</h3>
+                    <p>First line of defense</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; color: #1de9b6;">🖥️</div>
+                    <h3>Network Security</h3>
+                    <p>Internal network protection</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; color: #00bcd4;">📱</div>
+                    <h3>Endpoint Security</h3>
+                    <p>Device-level protection</p>
+                </div>
+            </div>
+            <p><strong>Principle:</strong> If one layer fails, other layers continue to provide protection</p>
+        </div>
+
+        <!-- Slide 10: Perimeter Security -->
+        <div class="slide">
+            <h2>Perimeter Security</h2>
+            <div class="defense-section">
+                <div class="icon">🌐</div>
+                <h3>First Line of Defense</h3>
+                <div class="technique-list">
+                    <div class="technique-item">
+                        <h3>🔥 Firewalls</h3>
+                        <p>Control incoming and outgoing network traffic based on predetermined security rules</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🚪 DMZ (Demilitarized Zone)</h3>
+                        <p>Isolated network segment for public-facing services</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🛡️ Intrusion Prevention Systems (IPS)</h3>
+                        <p>Monitor network traffic and block detected threats in real-time</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🌐 Web Application Firewalls (WAF)</h3>
+                        <p>Protect web applications from HTTP-based attacks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Network Security -->
+        <div class="slide">
+            <h2>Network Security</h2>
+            <div class="defense-section">
+                <div class="icon">🖥️</div>
+                <h3>Internal Network Protection</h3>
+                <div class="technique-list">
+                    <div class="technique-item">
+                        <h3>🔀 Network Segmentation</h3>
+                        <p>Divide networks into smaller segments to limit breach impact</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>📊 Network Monitoring</h3>
+                        <p>Continuous surveillance of network traffic and behavior analysis</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🔍 Intrusion Detection Systems (IDS)</h3>
+                        <p>Monitor and alert on suspicious network activities</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🔐 VPN (Virtual Private Network)</h3>
+                        <p>Secure encrypted connections for remote access</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Endpoint Security -->
+        <div class="slide">
+            <h2>Endpoint Security</h2>
+            <div class="defense-section">
+                <div class="icon">📱</div>
+                <h3>Device-Level Protection</h3>
+                <div class="technique-list">
+                    <div class="technique-item">
+                        <h3>🦠 Antivirus/Anti-malware</h3>
+                        <p>Detect and remove malicious software from devices</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🔑 Endpoint Detection & Response (EDR)</h3>
+                        <p>Advanced threat detection and incident response capabilities</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>📱 Mobile Device Management (MDM)</h3>
+                        <p>Secure and manage mobile devices accessing corporate resources</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🔒 Device Encryption</h3>
+                        <p>Protect data stored on devices through encryption</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Essential Protection Techniques -->
+        <div class="slide">
+            <h2>Essential Protection Techniques</h2>
+            <div class="technique-list">
+                <div class="technique-item">
+                    <h3>🔐 Access Control & Identity Management</h3>
+                    <p>Multi-factor authentication, role-based access, privileged access management</p>
+                </div>
+                <div class="technique-item">
+                    <h3>🔒 Encryption</h3>
+                    <p>Data encryption at rest, in transit, and in use using strong cryptographic algorithms</p>
+                </div>
+                <div class="technique-item">
+                    <h3>💾 Backup & Recovery</h3>
+                    <p>Regular data backups with tested recovery procedures and offline storage</p>
+                </div>
+                <div class="technique-item">
+                    <h3>🆙 Patch Management</h3>
+                    <p>Regular system updates and vulnerability management programs</p>
+                </div>
+                <div class="technique-item">
+                    <h3>🎓 Security Awareness Training</h3>
+                    <p>Regular employee education on cybersecurity threats and best practices</p>
+                </div>
+                <div class="technique-item">
+                    <h3>📋 Incident Response Planning</h3>
+                    <p>Structured approach to handling and recovering from security incidents</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Best Practices for Organizations -->
+        <div class="slide">
+            <h2>Best Practices for Organizations</h2>
+            <div class="best-practices-grid">
+                <div class="practice-item">
+                    <h3>📋 Comprehensive Security Policies</h3>
+                    <p>Develop and enforce clear cybersecurity policies and procedures across the organization</p>
+                </div>
+                <div class="practice-item">
+                    <h3>🎓 Regular Security Training</h3>
+                    <p>Conduct ongoing cybersecurity awareness training for all employees</p>
+                </div>
+                <div class="practice-item">
+                    <h3>🔍 Vulnerability Assessments</h3>
+                    <p>Perform regular security audits and penetration testing</p>
+                </div>
+                <div class="practice-item">
+                    <h3>🚨 Incident Response Plans</h3>
+                    <p>Maintain updated incident response procedures and conduct regular drills</p>
+                </div>
+                <div class="practice-item">
+                    <h3>💾 Business Continuity Planning</h3>
+                    <p>Implement comprehensive backup and disaster recovery strategies</p>
+                </div>
+                <div class="practice-item">
+                    <h3>👥 Third-Party Risk Management</h3>
+                    <p>Assess and monitor security risks from vendors and partners</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Best Practices for Individuals -->
+        <div class="slide">
+            <h2>Best Practices for Individuals</h2>
+            <div class="best-practices-grid">
+                <div class="practice-item">
+                    <h3>🔑 Strong Password Management</h3>
+                    <p>Use unique, complex passwords and password managers for all accounts</p>
+                </div>
+                <div class="practice-item">
+                    <h3>🔐 Two-Factor Authentication</h3>
+                    <p>Enable 2FA on all accounts that support it, especially financial and email accounts</p>
+                </div>
+                <div class="practice-item">
+                    <h3>🆙 Keep Software Updated</h3>
+                    <p>Regularly update operating systems, applications, and security software</p>
+                </div>
+                <div class="practice-item">
+                    <h3>📧 Email Security Awareness</h3>
+                    <p>Be cautious with email attachments and links from unknown sources</p>
+                </div>
+                <div class="practice-item">
+                    <h3>🌐 Safe Browsing Habits</h3>
+                    <p>Use secure websites (HTTPS), avoid suspicious downloads, and use reputable antivirus</p>
+                </div>
+                <div class="practice-item">
+                    <h3>📱 Mobile Security</h3>
+                    <p>Secure mobile devices with PINs/biometrics and only download apps from official stores</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Major Security Incidents - Organizations -->
+        <div class="slide">
+            <h2>Major Security Incidents - Organizations</h2>
+            <div class="example-list">
+                <div class="incident-item">
+                    <h3>🏢 Equifax (2017)</h3>
+                    <p>Data breach affecting 147 million people due to unpatched vulnerability in web application</p>
+                </div>
+                <div class="incident-item">
+                    <h3>🏨 Marriott (2018)</h3>
+                    <p>500 million guest records exposed through compromised reservation system over 4 years</p>
+                </div>
+                <div class="incident-item">
+                    <h3>🏥 WannaCry Ransomware (2017)</h3>
+                    <p>Global attack affecting 300,000+ computers, including UK's NHS, causing massive disruptions</p>
+                </div>
+                <div class="incident-item">
+                    <h3>🛒 Target (2013)</h3>
+                    <p>40 million credit/debit card accounts compromised through POS system malware</p>
+                </div>
+                <div class="incident-item">
+                    <h3>🔗 SolarWinds (2020)</h3>
+                    <p>Supply chain attack affecting 18,000+ customers including government agencies</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Security Incidents - Individuals -->
+        <div class="slide">
+            <h2>Common Individual Security Incidents</h2>
+            <div class="example-list">
+                <div class="incident-item">
+                    <h3>💳 Identity Theft</h3>
+                    <p>Personal information stolen through phishing, data breaches, or social engineering</p>
+                </div>
+                <div class="incident-item">
+                    <h3>💰 Financial Fraud</h3>
+                    <p>Banking credentials compromised through fake websites or phone scams</p>
+                </div>
+                <div class="incident-item">
+                    <h3>📱 Social Media Account Takeover</h3>
+                    <p>Accounts hijacked through weak passwords or credential stuffing attacks</p>
+                </div>
+                <div class="incident-item">
+                    <h3>🔒 Ransomware on Personal Devices</h3>
+                    <p>Personal files encrypted by malware downloaded from malicious emails or websites</p>
+                </div>
+                <div class="incident-item">
+                    <h3>📧 Email Account Compromise</h3>
+                    <p>Email accounts hacked leading to spam distribution and further phishing attacks</p>
+                </div>
+                <div class="incident-item">
+                    <h3>🛒 Online Shopping Fraud</h3>
+                    <p>Credit card information stolen through fake e-commerce websites or skimming</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: AI in Cybersecurity -->
+        <div class="slide">
+            <h2>AI & Machine Learning in Cybersecurity</h2>
+            <div class="defense-section">
+                <div class="icon">🤖</div>
+                <h3>Intelligent Threat Detection & Response</h3>
+                <div class="technique-list">
+                    <div class="technique-item">
+                        <h3>🔍 Behavioral Analytics</h3>
+                        <p>AI analyzes user behavior patterns to detect anomalies and potential insider threats</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>⚡ Real-time Threat Detection</h3>
+                        <p>Machine learning algorithms identify unknown malware and zero-day attacks</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🚀 Automated Response</h3>
+                        <p>AI-powered systems can automatically isolate threats and initiate countermeasures</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🔮 Predictive Security</h3>
+                        <p>AI predicts potential attack vectors and vulnerabilities before they're exploited</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;"><strong>Challenge:</strong> Adversarial AI - attackers also use AI to create more sophisticated threats</p>
+            </div>
+        </div>
+
+        <!-- Slide 19: Cloud Security -->
+        <div class="slide">
+            <h2>Cloud Security</h2>
+            <div class="defense-section">
+                <div class="icon">☁️</div>
+                <h3>Protecting Cloud Infrastructure & Services</h3>
+                <div class="technique-list">
+                    <div class="technique-item">
+                        <h3>🔐 Identity & Access Management (IAM)</h3>
+                        <p>Centralized control over user identities and permissions across cloud services</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🔒 Data Encryption</h3>
+                        <p>Encrypt data at rest, in transit, and in use within cloud environments</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>📊 Cloud Security Monitoring</h3>
+                        <p>Continuous monitoring of cloud resources and configurations for threats</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🛡️ Cloud Access Security Broker (CASB)</h3>
+                        <p>Enforce security policies and provide visibility into cloud application usage</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;"><strong>Shared Responsibility Model:</strong> Cloud provider secures infrastructure; customer secures their data and applications</p>
+            </div>
+        </div>
+
+        <!-- Slide 20: Zero Trust Architecture -->
+        <div class="slide">
+            <h2>Zero Trust Architecture</h2>
+            <div class="defense-section">
+                <div class="icon">🔍</div>
+                <h3>"Never Trust, Always Verify"</h3>
+                <div class="technique-list">
+                    <div class="technique-item">
+                        <h3>🚫 No Implicit Trust</h3>
+                        <p>Every user and device must be authenticated and authorized, regardless of location</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🔬 Micro-Segmentation</h3>
+                        <p>Network is divided into small zones with individual access controls</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>📊 Continuous Monitoring</h3>
+                        <p>Real-time verification of user behavior and device security posture</p>
+                    </div>
+                    <div class="technique-item">
+                        <h3>🎯 Least Privilege Access</h3>
+                        <p>Users receive minimum access necessary to perform their functions</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;"><strong>Key Principle:</strong> Assume breach has already occurred and verify everything</p>
+            </div>
+        </div>
+
+        <!-- Slide 21: Emerging Trends Summary -->
+        <div class="slide">
+            <h2>Emerging Trends Summary</h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px;">
+                <div style="text-align: center; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 15px;">
+                    <div style="font-size: 3rem; color: #64ffda;">🤖</div>
+                    <h3>AI & ML Integration</h3>
+                    <p>Intelligent threat detection, automated response, and predictive security measures</p>
+                </div>
+                <div style="text-align: center; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 15px;">
+                    <div style="font-size: 3rem; color: #1de9b6;">☁️</div>
+                    <h3>Cloud-First Security</h3>
+                    <p>Security solutions designed for hybrid and multi-cloud environments</p>
+                </div>
+                <div style="text-align: center; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 15px;">
+                    <div style="font-size: 3rem; color: #00bcd4;">🔍</div>
+                    <h3>Zero Trust Adoption</h3>
+                    <p>Moving away from perimeter-based security to identity-centric models</p>
+                </div>
+            </div>
+            <div style="margin-top: 40px;">
+                <p><strong>Future Focus:</strong> Quantum-resistant cryptography, IoT security, and privacy-preserving technologies</p>
+            </div>
+        </div>
+
+        <!-- Slide 22: Conclusion -->
+        <div class="slide">
+            <h2>Key Takeaways</h2>
+            <div style="text-align: left; max-width: 900px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+                    <div class="practice-item">
+                        <h3>🛡️ Cybersecurity is Everyone's Responsibility</h3>
+                        <p>From individuals to organizations, everyone plays a role in maintaining security</p>
+                    </div>
+                    <div class="practice-item">
+                        <h3>🏰 Defense in Depth Strategy</h3>
+                        <p>Implement multiple layers of security controls across perimeter, network, and endpoints</p>
+                    </div>
+                    <div class="practice-item">
+                        <h3>📚 Stay Informed and Educated</h3>
+                        <p>Cyber threats constantly evolve - continuous learning and awareness are essential</p>
+                    </div>
+                    <div class="practice-item">
+                        <h3>🔄 Regular Updates and Maintenance</h3>
+                        <p>Keep systems patched, conduct security training, and maintain incident response plans</p>
+                    </div>
+                    <div class="practice-item">
+                        <h3>🚨 Prepare for When, Not If</h3>
+                        <p>Assume breaches will occur - have detection, response, and recovery plans ready</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 40px; font-size: 3rem;">🛡️</div>
+            <h3 style="margin-top: 20px;">Thank You!</h3>
+            <p>Questions & Discussion</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+        <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Initialize particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function updateSlideCounter() {
+            document.getElementById('currentSlide').textContent = currentSlideIndex + 1;
+            document.getElementById('totalSlides').textContent = totalSlides;
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentSlideIndex + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            // Update controls
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+            
+            updateSlideCounter();
+            updateProgressBar();
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                currentSlideIndex = newIndex;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') changeSlide(-1);
+            if (event.key === 'ArrowRight') changeSlide(1);
+            if (event.key === ' ') {
+                event.preventDefault();
+                changeSlide(1);
+            }
+        });
+
+        // Initialize
+        createParticles();
+        showSlide(0);
+        updateSlideCounter();
+        updateProgressBar();
+    </script>
+</body>
+</html>
+                
